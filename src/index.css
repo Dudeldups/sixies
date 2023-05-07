@@ -23,7 +23,7 @@ body {
 .container {
   background: radial-gradient(
     circle,
-    rgba(243, 167, 59, 1) 0%,
+    rgba(247, 170, 62, 1) 0%,
     rgba(238, 152, 44, 1) 100%
   );
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
@@ -31,13 +31,13 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  border-radius: 9px;
+  border-radius: 13px;
 }
 
 .dice-grid {
   display: grid;
   grid-template: auto auto / repeat(3, 1fr);
-  gap: 10px;
+  gap: 14px;
   margin-bottom: 35px;
 }
 
@@ -45,14 +45,17 @@ body {
   background-color: rgb(240, 240, 240);
   height: 60px;
   width: 60px;
-  font-size: 1.25rem;
-  font-weight: 400;
-  border-radius: 4px;
+  font-size: 2.2rem;
+  font-weight: 600;
+  border-radius: 5px;
   box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .game-button {
-  background-color: #763400;
+  background-color: hsl(26, 100%, 23%);
   color: white;
   height: 45px;
   width: 110px;
@@ -63,7 +66,7 @@ body {
   box-shadow: 0px 0px 7px 3px rgba(0, 0, 0, 0.28);
 }
 .game-button:hover {
-  background-color: #6e3000;
+  background-color: hsl(25, 100%, 22%);
 }
 .game-button:active {
   box-shadow: inset rgba(5, 10, 12, 0.32) 0 0 8px 2px,
