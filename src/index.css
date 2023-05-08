@@ -42,6 +42,7 @@ body {
 }
 
 .die {
+  cursor: pointer;
   background-color: rgb(240, 240, 240);
   height: 60px;
   width: 60px;
@@ -52,9 +53,11 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  user-select: none;
 }
 
 .game-button {
+  cursor: pointer;
   background-color: hsl(26, 100%, 23%);
   color: white;
   height: 45px;
