@@ -2,15 +2,15 @@ import { useEffect, useState } from "react";
 import Die from "../Components/Die.jsx";
 
 export default function App() {
-  const [sixies, setSixies] = useState(false);
+  const [score, setScore] = useState(0);
   const [round, setRound] = useState(-1);
   const [dice, setDice] = useState(createAllDice());
 
   useEffect(() => {
-    console.log("Dice changed: " + dice.map((x) => x.activeRounds));
+    console.log("Dice changed: " + dice.map((x) => x.remainingRounds));
     //check for win status (all dice held and all have the same number)
 
-    // then set round to 0 for restart
+    // then set round to 0 for restart and score +1
   }, [dice]);
 
   useEffect(() => {
@@ -31,17 +31,19 @@ export default function App() {
       id,
       value,
       isHeld: false,
-      activeRounds: 0,
+      remainingRounds: 6,
     };
   }
 
   function clickDie(die) {
-    if (round === -1) {
+    if (round === -1 || die.isHeld) {
       return;
     }
     setDice((prevDice) =>
       prevDice.map((cur) =>
-        cur.id === die.id ? { ...die, isHeld: !die.isHeld } : cur
+        cur.id === die.id
+          ? { ...die, isHeld: !die.isHeld }
+          : { ...cur, remainingRounds: cur.remainingRounds + 1 }
       )
     );
   }
@@ -49,10 +51,10 @@ export default function App() {
   function rollDice() {
     setDice((prevDice) =>
       prevDice.map((cur) => {
-        if (cur.activeRounds >= 6 || !cur.isHeld) {
+        if (cur.remainingRounds === 0 || !cur.isHeld) {
           return createDie(cur.id);
         } else {
-          return { ...cur, activeRounds: cur.activeRounds + 1 };
+          return { ...cur, remainingRounds: cur.remainingRounds - 1 };
         }
       })
     );
@@ -65,7 +67,7 @@ export default function App() {
         key={die.id}
         value={die.value}
         isHeld={die.isHeld}
-        activeRounds={die.activeRounds}
+        remainingRounds={die.remainingRounds}
         clickDie={() => clickDie(die)}
       />
     );
