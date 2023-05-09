@@ -3,19 +3,25 @@ import Die from "../Components/Die.jsx";
 
 export default function App() {
   const [score, setScore] = useState(0);
-  const [round, setRound] = useState(-1);
+  const [sixies, setSixies] = useState(false);
+  const [rolls, setRolls] = useState(-1);
+  const [number, setNumber] = useState(0);
   const [dice, setDice] = useState(createAllDice());
 
   useEffect(() => {
-    console.log("Dice changed: " + dice.map((x) => x.remainingRounds));
-    //check for win status (all dice held and all have the same number)
-
-    // then set round to 0 for restart and score +1
+    const amtHeld = dice.filter((d) => d.isHeld).length;
+    !amtHeld && number && setNumber(0);
+    if (amtHeld === 6 && !sixies) {
+      setSixies(true);
+      setScore((prev) => prev + 1);
+      setRolls((prev) => prev + 10);
+      setDice((prevDice) =>
+        prevDice.map((d) => ({ ...d, remainingRounds: 6 }))
+      );
+    }
   }, [dice]);
 
-  useEffect(() => {
-    console.log("Round changed to: " + round);
-  }, [round]);
+  useEffect(() => {}, [sixies]);
 
   function createAllDice() {
     let newDice = [];
@@ -31,34 +37,42 @@ export default function App() {
       id,
       value,
       isHeld: false,
-      remainingRounds: 6,
+      remainingRounds: 10,
     };
   }
 
   function clickDie(die) {
-    if (round === -1 || die.isHeld) {
+    if (sixies || rolls === -1 || (number && die.value !== number)) {
       return;
+    }
+    if (die.isHeld && dice.filter((d) => d.isHeld).length === 1) {
+      setNumber(0);
+    } else if (!number) {
+      setNumber(die.value);
     }
     setDice((prevDice) =>
       prevDice.map((cur) =>
-        cur.id === die.id
-          ? { ...die, isHeld: !die.isHeld }
-          : { ...cur, remainingRounds: cur.remainingRounds + 1 }
+        cur.id === die.id ? { ...cur, isHeld: !cur.isHeld } : cur
       )
     );
   }
 
   function rollDice() {
-    setDice((prevDice) =>
-      prevDice.map((cur) => {
-        if (cur.remainingRounds === 0 || !cur.isHeld) {
-          return createDie(cur.id);
-        } else {
-          return { ...cur, remainingRounds: cur.remainingRounds - 1 };
-        }
-      })
-    );
-    setRound((prev) => (prev === -1 ? 1 : prev + 1));
+    if (sixies) {
+      setSixies(false);
+      setDice((prevDice) => prevDice.map((d) => createDie(d.id)));
+    } else {
+      setDice((prevDice) =>
+        prevDice.map((cur) => {
+          if (cur.remainingRounds < 1 || !cur.isHeld) {
+            return createDie(cur.id);
+          } else {
+            return { ...cur, remainingRounds: cur.remainingRounds - 1 };
+          }
+        })
+      );
+      setRolls((prev) => (prev < 1 ? 6 : prev - 1));
+    }
   }
 
   const diceElements = dice.map((die) => {
@@ -73,14 +87,27 @@ export default function App() {
     );
   });
 
+  const buttonText = () => {
+    if (rolls === -1) {
+      return "Start";
+    } else if (rolls === 0) {
+      return "Restart";
+    } else if (sixies) {
+      return "Continue";
+    } else {
+      return "Roll";
+    }
+  };
+
   return (
     <div className="container">
       <div className="dice-grid">{diceElements}</div>
       <button className="game-button" onClick={rollDice}>
-        {round === -1 ? "Start" : round === 0 ? "Restart" : "Roll"}
+        {buttonText()}
       </button>
       <br />
-      <p>Round: {round}</p>
+      <p>Rolls: {rolls}</p>
+      <p>Score: {score}</p>
     </div>
   );
 }

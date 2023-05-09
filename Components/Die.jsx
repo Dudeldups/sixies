@@ -3,32 +3,35 @@ export default function Die(props) {
 
   switch (props.remainingRounds) {
     case 0:
-      h = 30;
+      h = 20;
       break;
 
     case 1:
-      h = 45;
+      h = 35;
       break;
 
     case 2:
-      h = 60;
+      h = 50;
       break;
 
     case 3:
-      h = 75;
+      h = 65;
       break;
 
     case 4:
-      h = 90;
+      h = 80;
       break;
 
     case 5:
-      h = 105;
+      h = 95;
+      break;
+
+    case 6:
+      h = 110;
       break;
 
     default:
       h = 120;
-      break;
   }
 
   const styles = {
