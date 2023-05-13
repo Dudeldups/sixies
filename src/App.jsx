@@ -4,13 +4,52 @@ import Game from "../Components/Game.jsx";
 import Title from "../Components/Title.jsx";
 
 export default function App() {
+  const [gameProgress, setGameProgress] = useState(null);
   const [showHelp, setShowHelp] = useState(false);
   const [sixies, setSixies] = useState(false);
+  const [highscore, setHighscore] = useState(0);
   const [score, setScore] = useState(0);
   const [rolls, setRolls] = useState(-100);
   const [dice, setDice] = useState(createAllDice());
   const amtHeld = dice.filter((d) => d.isHeld).length;
   const number = dice.find((d) => d.isHeld)?.value || 0;
+
+  useEffect(() => {
+    const savedGameProgress = JSON.parse(localStorage.getItem("sixiesSave"));
+    if (savedGameProgress) {
+      setGameProgress(savedGameProgress);
+      setSixies(savedGameProgress.sixies);
+      setHighscore(savedGameProgress.highscore);
+      setScore(savedGameProgress.score);
+      setRolls(savedGameProgress.rolls);
+      setDice(savedGameProgress.dice);
+    }
+  }, []);
+
+  useEffect(() => {
+    const saveGameProgress = () => {
+      const savedGameProgress = {
+        sixies,
+        score,
+        highscore,
+        rolls,
+        dice,
+      };
+      setGameProgress(savedGameProgress);
+    };
+
+    saveGameProgress();
+  }, [rolls]);
+
+  useEffect(() => {
+    localStorage.setItem("sixiesSave", JSON.stringify(gameProgress));
+  }, [gameProgress]);
+
+  useEffect(() => {
+    if (score > highscore) {
+      setHighscore(score);
+    }
+  }, [score]);
 
   useEffect(() => {
     if (amtHeld === 6 && !sixies) {
@@ -109,6 +148,7 @@ export default function App() {
         ) : (
           <Game
             sixies={sixies}
+            highscore={highscore}
             score={score}
             rolls={rolls}
             dice={dice}

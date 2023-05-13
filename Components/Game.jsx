@@ -1,7 +1,15 @@
 import Die from "../Components/Die.jsx";
 import Stats from "../Components/Stats.jsx";
 
-const Game = ({ sixies, score, rolls, dice, clickDie, rollDice }) => {
+const Game = ({
+  sixies,
+  highscore,
+  score,
+  rolls,
+  dice,
+  clickDie,
+  rollDice,
+}) => {
   const diceElements = dice.map((die) => {
     return (
       <Die
@@ -28,7 +36,7 @@ const Game = ({ sixies, score, rolls, dice, clickDie, rollDice }) => {
 
   return (
     <>
-      <Stats key="stats" score={score} rolls={rolls} />
+      <Stats key="stats" highscore={highscore} score={score} rolls={rolls} />
       <div className="dice-grid">{diceElements}</div>
       <button className="game-button" onClick={rollDice}>
         {buttonText()}
