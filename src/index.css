@@ -7,7 +7,7 @@
 }
 
 body {
-  background: linear-gradient(180deg, #2c3f4a 0%, rgba(54, 73, 84, 1) 100%);
+  background: linear-gradient(180deg, #2c3f4a 0%, #364954 100%);
   height: 100vh;
   padding: 30px;
   display: flex;
@@ -17,15 +17,62 @@ body {
 }
 
 .title {
-  font-size: 1.6rem;
+  margin-bottom: 10px;
+  font-size: 1.9rem;
   text-align: center;
-  letter-spacing: 10px;
+  letter-spacing: 0.6rem;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3),
+    -2px -2px 4px rgba(255, 255, 255, 0.3), 0px 4px 6px rgba(0, 0, 0, 0.2),
+    0px -4px 6px rgba(0, 0, 0, 0.2), -3px 3px 5px rgba(0, 0, 0, 0.4),
+    3px -3px 5px rgba(255, 255, 255, 0.4);
 }
 
-.container {
-  background: radial-gradient(circle, #bba79c 0%, #bba79c 100%);
+.help-btn {
+  position: absolute;
+  top: 5px;
+  right: -65px;
+  cursor: pointer;
+  background-color: rgba(255, 255, 255, 0.904);
+  height: 55px;
+  width: 55px;
+  font-weight: bold;
+  font-size: 2.2rem;
+  border: none;
+  border-radius: 6px;
+  box-shadow: 0px 0px 3px 3px rgba(0, 0, 0, 0.28);
+}
+
+.help h2,
+h3 {
+  text-align: center;
+}
+
+.help li {
+  margin-bottom: 5px;
+}
+
+.help {
+  font-size: 1.2rem;
+}
+
+.stats {
+  background-color: rgba(255, 255, 255, 0.2);
+  padding: 6px;
+  margin-bottom: 15px;
+  font-size: 1.3rem;
+  font-weight: 600;
+  width: 100%;
+  border-radius: 7px;
+  display: flex;
+  justify-content: space-between;
+}
+
+main {
+  background: radial-gradient(circle, #bba79c 0%, #a0877a 100%);
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-  padding: 40px;
+  padding: 25px 40px 40px 40px;
+  max-width: 400px;
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -44,7 +91,7 @@ body {
   background-color: rgb(240, 240, 240);
   height: 60px;
   width: 60px;
-  font-size: 2.2rem;
+  font-size: 2.5rem;
   font-weight: 600;
   border-radius: 7px;
   box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
@@ -56,7 +103,12 @@ body {
 
 .game-button {
   cursor: pointer;
-  background-color: #2e3ba4;
+  background: linear-gradient(
+    90deg,
+    rgba(54, 67, 173, 1) 0%,
+    rgba(56, 70, 176, 1) 50%,
+    rgba(54, 67, 173, 1) 100%
+  );
   color: white;
   height: 45px;
   width: 110px;
@@ -66,17 +118,14 @@ body {
   border-radius: 6px;
   box-shadow: 0px 0px 7px 3px rgba(0, 0, 0, 0.28);
 }
-.game-button:hover {
-  background-color: #2a3797;
-}
 .game-button:active {
   box-shadow: inset rgba(5, 10, 12, 0.32) 0 0 8px 2px,
     0px 0px 7px 3px rgba(0, 0, 0, 0.28);
   font-size: 1.45rem;
 }
 
-.white {
-  color: white;
+.darkblue {
+  color: dodgerblue;
 }
 
 .yellow {
