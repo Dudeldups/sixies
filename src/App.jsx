@@ -4,25 +4,16 @@ import Die from "../Components/Die.jsx";
 export default function App() {
   const [sixies, setSixies] = useState(false);
   const [score, setScore] = useState(0);
-  const [rolls, setRolls] = useState(null);
+  const [rolls, setRolls] = useState(-100);
   const [dice, setDice] = useState(createAllDice());
   const amtHeld = dice.filter((d) => d.isHeld).length;
   const number = dice.find((d) => d.isHeld)?.value || 0;
 
   useEffect(() => {
-    if (rolls <= 0) {
-      setDice((prevDice) =>
-        prevDice.map((d) => ({ ...d, remainingRounds: 0 }))
-      );
-    }
-  }, [rolls]);
-
-  useEffect(() => {
-    console.log("Amount held: " + amtHeld);
     if (amtHeld === 6 && !sixies) {
       setSixies(true);
       setScore((prev) => prev + 1);
-      setRolls((prev) => prev + number);
+      setRolls((prev) => prev + 1 + number);
       setDice((prevDice) =>
         prevDice.map((d) => ({ ...d, remainingRounds: 20 }))
       );
@@ -48,11 +39,15 @@ export default function App() {
   }
 
   function clickDie(die) {
-    if (sixies || rolls === null || (number && die.value !== number)) {
+    if (
+      sixies ||
+      rolls < 0 ||
+      (number && die.value !== number) ||
+      (rolls === 0 && die.isHeld)
+    ) {
       return;
     }
-    const heldChange = die.isHeld ? -1 : 1;
-    setRolls((prev) => prev + heldChange);
+    setRolls((prev) => prev + (die.isHeld ? -1 : 1));
     setDice((prevDice) =>
       prevDice.map((cur) =>
         cur.id === die.id
@@ -63,7 +58,7 @@ export default function App() {
           : cur.value === number && cur.isHeld
           ? {
               ...cur,
-              remainingRounds: cur.remainingRounds + (die.isHeld ? -1 : 6),
+              remainingRounds: cur.remainingRounds + (die.isHeld ? -6 : 6),
             }
           : cur
       )
@@ -84,11 +79,14 @@ export default function App() {
           if (cur.remainingRounds < 1 || !cur.isHeld) {
             return createDie(cur.id);
           } else {
-            return { ...cur, remainingRounds: cur.remainingRounds - 1 };
+            return {
+              ...cur,
+              remainingRounds: cur.remainingRounds - 1,
+            };
           }
         })
       );
-      setRolls((prev) => (prev === null ? 6 : prev - 1));
+      setRolls((prev) => prev - 1);
     }
   }
 
@@ -105,7 +103,7 @@ export default function App() {
   });
 
   const buttonText = () => {
-    if (rolls === null) {
+    if (rolls === -100) {
       return "Start";
     } else if (rolls <= 0) {
       return "Restart";
@@ -117,16 +115,29 @@ export default function App() {
   };
 
   return (
-    <div className="container">
-      <div className="dice-grid">{diceElements}</div>
-      <button className="game-button" onClick={rollDice}>
-        {buttonText()}
-      </button>
-      <br />
-      <p>Rolls: {rolls}</p>
-      <p>Score: {score}</p>
-      <p>Number: {number}</p>
-      <p>AmtHeld: {amtHeld}</p>
-    </div>
+    <>
+      <div className="title">
+        <h1>
+          <span className="pink">S</span>
+          <span className="blue">I</span>
+          <span className="green">X</span>
+          <span className="yellow">I</span>
+          <span className="violet">E</span>
+          <span className="white">S</span>
+          <span className="orange">!</span>
+        </h1>
+      </div>
+      <div className="container">
+        <div className="dice-grid">{diceElements}</div>
+        <button className="game-button" onClick={rollDice}>
+          {buttonText()}
+        </button>
+        <br />
+        <p>Rolls: {rolls}</p>
+        <p>Score: {score}</p>
+        <p>Number: {number}</p>
+        <p>AmtHeld: {amtHeld}</p>
+      </div>
+    </>
   );
 }

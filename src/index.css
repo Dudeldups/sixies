@@ -16,6 +16,12 @@ body {
   align-items: center;
 }
 
+.title {
+  font-size: 1.6rem;
+  text-align: center;
+  letter-spacing: 10px;
+}
+
 .container {
   background: radial-gradient(circle, #bba79c 0%, #bba79c 100%);
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
@@ -67,4 +73,32 @@ body {
   box-shadow: inset rgba(5, 10, 12, 0.32) 0 0 8px 2px,
     0px 0px 7px 3px rgba(0, 0, 0, 0.28);
   font-size: 1.45rem;
+}
+
+.white {
+  color: white;
+}
+
+.yellow {
+  color: yellow;
+}
+
+.violet {
+  color: violet;
+}
+
+.blue {
+  color: deepskyblue;
+}
+
+.pink {
+  color: deeppink;
+}
+
+.green {
+  color: lawngreen;
+}
+
+.orange {
+  color: orangered;
 }
