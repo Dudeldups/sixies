@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import Help from "../Components/Help.jsx";
-import Game from "../Components/Game.jsx";
-import Title from "../Components/Title.jsx";
+import Help from "../components/Help.jsx";
+import Game from "../components/Game.jsx";
+import Title from "../components/Title.jsx";
 
 export default function App() {
   const [gameProgress, setGameProgress] = useState(null);
@@ -77,6 +77,7 @@ export default function App() {
       value,
       isHeld: false,
       remainingRounds: 6,
+      animate: true,
     };
   }
 
@@ -97,6 +98,7 @@ export default function App() {
             return {
               ...cur,
               remainingRounds: cur.remainingRounds - 1,
+              animate: false,
             };
           }
         })
@@ -121,13 +123,15 @@ export default function App() {
           ? {
               ...cur,
               isHeld: !cur.isHeld,
+              animate: false,
             }
           : cur.value === number && cur.isHeld
           ? {
               ...cur,
               remainingRounds: cur.remainingRounds + (die.isHeld ? -6 : 6),
+              animate: false,
             }
-          : cur
+          : { ...cur, animate: false }
       )
     );
   }

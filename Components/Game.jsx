@@ -1,5 +1,5 @@
-import Die from "../Components/Die.jsx";
-import Stats from "../Components/Stats.jsx";
+import Die from "./Die.jsx";
+import Stats from "./Stats.jsx";
 
 const Game = ({
   sixies,
@@ -18,6 +18,7 @@ const Game = ({
         isHeld={die.isHeld}
         remainingRounds={die.remainingRounds}
         clickDie={() => clickDie(die)}
+        animate={die.animate}
       />
     );
   });
